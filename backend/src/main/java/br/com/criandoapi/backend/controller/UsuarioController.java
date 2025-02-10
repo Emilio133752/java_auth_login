@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.criandoapi.backend.DAO.IUsuario;
 import br.com.criandoapi.backend.model.Usuario;
+import br.com.criandoapi.backend.service.UsuarioService;
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -28,27 +31,30 @@ public class UsuarioController{
 	
 	@Autowired
 	private IUsuario dao;
+	private UsuarioService usuarioService;
+	public UsuarioController(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
 	
 	@GetMapping
-	public List<Usuario> listaUsuarios() {
-		return (List<Usuario>) dao.findAll();
+	public ResponseEntity<List<Usuario>> listaUsuarios() {
+        return ResponseEntity.status(200).body(usuarioService.listarUsuario());
 	}
 
     @PostMapping
-    public ResponseEntity<Usuario> criarUsuarios(@RequestBody Usuario usuario) {
-        Usuario usuarioNovo = dao.save(usuario);
-        return ResponseEntity.status(201).body(usuarioNovo);
+    public ResponseEntity<Usuario> criarUsuarios(@Valid @RequestBody Usuario usuario) {
+        return ResponseEntity.status(201).body(usuarioService.criarUsuario(usuario));
     }
     
     @PutMapping
     public ResponseEntity<Usuario> editarUsuario(@RequestBody Usuario usuario) {
         Usuario usuarioNovo = dao.save(usuario);
-        return ResponseEntity.status(200).body(usuarioNovo);
+        return ResponseEntity.status(202).body(usuarioNovo);
     }
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Optional<Usuario>> excluirUsuario(@PathVariable Integer id){
 		Optional<Usuario> deleteUsuario = dao.findById(id);
 		dao.deleteById(id);
-        return ResponseEntity.status(200).body(deleteUsuario);
+        return ResponseEntity.status(204).body(deleteUsuario);
 	}
 }

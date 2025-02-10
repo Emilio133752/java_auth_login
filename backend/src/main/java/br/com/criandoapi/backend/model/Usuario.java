@@ -1,5 +1,8 @@
 package br.com.criandoapi.backend.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,9 +19,14 @@ public class Usuario {
 	@Column(name = "id")
 	private Integer id;
 	
+    @NotNull(message = "O nome não pode ser nulo")
+    @NotBlank(message = "O nome não pode estar em branco")
+    @Size(min = 3, max = 200, message = "O nome deve ter entre 3 e 200 caracteres")
 	@Column(name = "nome", length = 200, nullable = true)
 	private String nome;
 
+    @NotNull(message = "O email não pode ser nulo")
+    @NotBlank(message = "O email não pode estar em branco")
 	@Column(name = "email", length = 50, nullable = true)
 	private String email;
 	
