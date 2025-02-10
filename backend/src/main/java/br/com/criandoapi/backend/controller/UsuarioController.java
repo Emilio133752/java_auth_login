@@ -48,13 +48,10 @@ public class UsuarioController{
     
     @PutMapping
     public ResponseEntity<Usuario> editarUsuario(@RequestBody Usuario usuario) {
-        Usuario usuarioNovo = dao.save(usuario);
-        return ResponseEntity.status(202).body(usuarioNovo);
+        return ResponseEntity.status(200).body(usuarioService.editarUsuario(usuario));
     }
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Optional<Usuario>> excluirUsuario(@PathVariable Integer id){
-		Optional<Usuario> deleteUsuario = dao.findById(id);
-		dao.deleteById(id);
-        return ResponseEntity.status(204).body(deleteUsuario);
+	public ResponseEntity<Boolean> excluirUsuario(@PathVariable Integer id){
+        return ResponseEntity.status(204).body(usuarioService.deletarUsuario(id));
 	}
 }
