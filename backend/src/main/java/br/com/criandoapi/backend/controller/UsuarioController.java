@@ -37,7 +37,7 @@ public class UsuarioController{
     @PostMapping
     public ResponseEntity<Usuario> criarUsuarios(@RequestBody Usuario usuario) {
         Usuario usuarioNovo = dao.save(usuario);
-        return ResponseEntity.status(200).body(usuarioNovo);
+        return ResponseEntity.status(201).body(usuarioNovo);
     }
     
     @PutMapping
